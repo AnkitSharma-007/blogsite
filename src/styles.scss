@@ -11,19 +11,6 @@ body {
     padding-top: 60px;
   }
   
-.nav-bar {
-    background-color: #1565C0;
-    color: #FFFFFF;
-    position: fixed;
-    top: 0;
-    z-index: 99;
-  }
-
-  button:focus {
-    outline: none;
-    border: 0;
-  }
-  
   .ck-editor__editable {
     max-height: 350px;
     min-height: 350px;
@@ -55,31 +42,3 @@ body {
     max-width: 100%;
   }
 
-  .left-panel {
-    margin-top: 15px;
-  }
-
-  .docs-example-viewer-body {
-    padding: 20px;
-    align-content: center;
-    align-items: center;
-    font-size: 14px;
-  }
-  
-  .docs-example-viewer-wrapper {
-    border: 1px solid rgba(0, 0, 0, .03);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .24), 0 0 2px rgba(0, 0, 0, .12);
-    border-radius: 4px;
-    margin: 1em auto;
-    background-color: #FFFFFF;
-  }
-
-  .entry-title {
-    margin: 20px;
-  }
-
-  .blog-info {
-    margin: 15px 20px 10px;
-    align-content: center;
-    align-items: center;
-  }
