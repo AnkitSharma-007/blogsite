@@ -1,3 +1,35 @@
+# Overview
+- [Prerequisites](https://github.com/AnkitSharma-007/blogsite#prerequisites)
+- [Create a new Angular app](https://github.com/AnkitSharma-007/blogsite#create-a-new-angular-app)
+- [Configuring firebase](https://github.com/AnkitSharma-007/blogsite#configuring-firebase)
+- [Install @angular/fire and firebase](https://github.com/AnkitSharma-007/blogsite#install-angularfire-and-firebase)
+- [Install Angular Material packages](https://github.com/AnkitSharma-007/blogsite#install-angular-material-packages)
+- [Add a material theme](https://github.com/AnkitSharma-007/blogsite#add-a-material-theme)
+- [Add a module for Angular material](https://github.com/AnkitSharma-007/blogsite#add-a-module-for-angular-material)
+- [Add Bootstrap CSS package](https://github.com/AnkitSharma-007/blogsite#add-bootstrap-css-package)
+- [Serve the application](https://github.com/AnkitSharma-007/blogsite#serve-the-application)
+- [Add Navigation Bar](https://github.com/AnkitSharma-007/blogsite#add-navigation-bar)
+- [Create the Home Page](https://github.com/AnkitSharma-007/blogsite#create-the-home-page)
+- [Add Router module](https://github.com/AnkitSharma-007/blogsite#add-router-module)
+- [Update the AppComponent](https://github.com/AnkitSharma-007/blogsite#update-the-appcomponent)
+- [Add Forms module](https://github.com/AnkitSharma-007/blogsite#add-forms-module)
+- [Creating the data model](https://github.com/AnkitSharma-007/blogsite#creating-the-data-model)
+- [Install CkEditor package](https://github.com/AnkitSharma-007/blogsite#install-ckeditor-package)
+- [Add the blog editor](https://github.com/AnkitSharma-007/blogsite#add-the-blog-editor)
+- [Create the blog service](https://github.com/AnkitSharma-007/blogsite#create-the-blog-service)
+- [Add a new blog](https://github.com/AnkitSharma-007/blogsite#add-a-new-blog)
+- [Add buttons in Nav bar](https://github.com/AnkitSharma-007/blogsite#add-buttons-in-nav-bar)
+- [Create custom pipes](https://github.com/AnkitSharma-007/blogsite#create-custom-pipes)
+- [Get the blogs from database](https://github.com/AnkitSharma-007/blogsite#get-the-blogs-from-database)
+- [Add a BlogCardComponent](https://github.com/AnkitSharma-007/blogsite#add-a-blogcardcomponent)
+- [Add the BlogCardComponent to the home page](https://github.com/AnkitSharma-007/blogsite#add-the-blogcardcomponent-to-the-home-page)
+- [Read a blog post](https://github.com/AnkitSharma-007/blogsite#read-a-blog-post)
+- [Deploy the app on Firebase Hosting](https://github.com/AnkitSharma-007/blogsite#deploy-the-app-on-firebase-hosting)
+- [Delete a blog post](https://github.com/AnkitSharma-007/blogsite#delete-a-blog-post)
+- [Edit an existing blog post](https://github.com/AnkitSharma-007/blogsite#edit-an-existing-blog-post)
+- [Next Steps](https://github.com/AnkitSharma-007/blogsite#next-steps)
+
+
 # Prerequisites
 Install the following software.
  - [Nodejs (LTS Version)](https://nodejs.org/en/)
@@ -97,7 +129,7 @@ After installation import it into [`src/main.ts`](https://github.com/AnkitSharma
 
 
 # Add a material theme
-We will add an built-in material theme globally by including the following line in [`src/styles.scss`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/styles.scss#L3) file.
+We will add a built-in material theme globally by including the following line in [`src/styles.scss`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/styles.scss#L3) file.
 
     @import  "~@angular/material/prebuilt-themes/indigo-pink.css";
 
@@ -149,7 +181,20 @@ Open `src/app/components/nav-bar/nav-bar.component.html` and replace what is the
 
     <mat-toolbar class="nav-bar mat-elevation-z2"></mat-toolbar>
 
-We will add the styling for nav bar in [`src/styles.scss`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/styles.scss#L14-L25) as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L25](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L25)
+We will add the styling for nav bar in [`src/app/components/nav-bar/nav-bar.component.scss`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.scss) as shown below
+
+     .nav-bar {
+        background-color: #1565C0;
+        color: #FFFFFF;
+        position: fixed;
+        top: 0;
+        z-index: 99;
+      }
+    
+      button:focus {
+        outline: none;
+        border: 0;
+      }
 
 
 # Create the Home Page
@@ -211,7 +256,18 @@ We will add the `FormsModule` in [`src/app/app.module.ts`](https://github.com/An
 
 
 # Creating the data model
-Create new a folder `src/app/models`. Create a new file `src/app/models/post.ts` and paste the code as shown in the file at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts)
+Create new a folder `src/app/models`. Create a new file [`src/app/models/post.ts`]([https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts)) and paste the following code
+
+    export class Post {
+	    postId: string;
+	    title: string;
+	    content: string;
+	    createdDate: any;
+	    
+		    constructor() {
+		    this.content = '';
+	    }
+    }
 
 
 # Install CkEditor package
@@ -245,7 +301,7 @@ We will create a new component for adding and editing the blog. Run the command 
 
 
 ### Add a route to the addpost page
-Add the route for this component in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L43](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L43)
+Add the route for this component in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L42](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L42)
 
     RouterModule.forRoot([
       ...
@@ -254,7 +310,7 @@ Add the route for this component in `app.module.ts` as shown at [https://github.
     ])
 
 ### Add CKEditor to `BlogEditorComponent`
-Open `components/blog-editor/blog-editor.component.ts` and add the import definitions as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L2-L6](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L2-L6)
+Open `src/app/components/blog-editor/blog-editor.component.ts` and add the import definitions as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L2-L6](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L2-L6)
 
     import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
     import { Post } from 'src/app/models/post';
@@ -388,7 +444,7 @@ We will add the navigation button to blog editor and home page in the nav bar. A
 
 
 ### Add BlogEditorComponent styles 
-We will add styling for blog editor in `styles.scss` file as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L22-L56](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L22-L56)
+We will add styling for blog editor in `styles.scss` file as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L43](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L43)
 
     .ck-editor__editable {
       max-height: 350px;
@@ -519,7 +575,7 @@ We will display the blog card on home page. Open [`src/app/components/home.compo
         </div>
     </div>
 
-Open `src/app/styles.scss` and add the following style definition inside it.
+Open [`src/app/components/home/home.component.scss`]([https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/home/home.component.scss](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/home/home.component.scss)) and add the following style definition inside it.
 
     .left-panel {
     	margin-top: 15px;
@@ -532,62 +588,41 @@ We will add the feature of reading a blog. Run the following command to create t
 
     ng g c components/blog
 
-Add the router link for this component in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L44](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L44)
+Add the router link for this component in [`app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L44) as shown below
 
-Add the following method definition in `blog.service.ts` file.
+	{ path: 'editpost/:id', component: BlogEditorComponent },
+	
+Add the following method definition in [`blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L31) file.
 
     getPostbyId(postId: string) {
     	const  userDetails = this.db.doc('blogs/' + postId).valueChanges();
     	return  userDetails;
     }
 
-Open `components/blog/blog.component.ts` and add import definitions as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L2-L4](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L2-L4)
+Open [`src/app/components/blog/blog.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts) and add import definitions as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L2-L4](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L2-L4)
+
+    import { Post } from 'src/app/models/post';
+    import { ActivatedRoute } from '@angular/router';
+    import { BlogService } from 'src/app/services/blog.service';
 
 Now put the code inside `BlogComponent` class as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L13-L30](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L13-L30)
 
-Open `components/blog/blog.component.html` and put the code as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.html)
 
-Finally we will add styling in the `styles.scss` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L62-L85](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L62-L85)
+Open [`src/app/components/blog/blog.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.html) and replace what is there with the code shown below.
 
+    <div class="docs-example-viewer-wrapper">
+        <h1 class="entry-title">{{postData.title}}</h1>
+        <mat-card-subtitle class="blog-info">
+            <i class="fa fa-calendar" aria-hidden="true"></i> {{postData.createdDate | date:'longDate'}}
+        </mat-card-subtitle>
+        <mat-divider></mat-divider>
+        <div class="docs-example-viewer-body">
+            <div [innerHTML]="postData.content">
+            </div>
+        </div>
+    </div>
 
-# Delete a blog post
-
-We will add the feature of deleting a blog. Add the following code in the blog service.
-
-    deletePost(blogID: string) {
-    	return  this.db.doc('blogs/' + blogID).delete();
-    }
-
-Open `components/blog-card/blog-card.component.ts` and add the delete method definition as shown as [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L41-L44](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L41-L44)
-
-
-# Edit an existing blog post
-
-We will now implement the functionality to edit an existing blog. Add the following code definition in blog service.
-
-    updatePost(postId: string, post: Post) {
-    	const  putData = JSON.parse(JSON.stringify(post));
-    	return  this.db.doc('blogs/' + postId).update(putData);
-    }
-
-Add the routing for edit functionality in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L45](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L45)
-
-We will fetch the id of the blog from the URL with the help of `ActivatedRoute` class. Open `blog-editor.component.ts` and add the following code in the constructor.
-
-    if (this._route.snapshot.params['id']) {
-    	this.postId = this._route.snapshot.paramMap.get('id');
-    }
-    
-Update the `ngOnInit` method inside the `BlogEditorComponent` class  as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L31-L43](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L31-L43)
-
-We will add the method to set the edit form when we click on “Edit” button on blog card in the home page. The method definition is shown below.
-
-    setPostFormData(postFormData) {
-    	this.postData.title = postFormData.title;
-    	this.postData.content = postFormData.content;
-    }
-
-Upon clicking on Save we need to handle to case of both adding a new blog as well as editing an existing blog. Hence we will update the `saveBlogPost` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L68-L83](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L68-L83)
+Finally we will add styling for `BlogComponent`. Open `src/app/components/blog/blog.component.scss` and replace what is there with the style definitions shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.scss](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.scss)
 
 
 # Deploy the app on Firebase Hosting
@@ -630,6 +665,78 @@ You will get a “Firebase initialization complete!” message.
 This command will deploy your angular application on Firebase and upon success it will give you a hosting URL.
 
 This completes our application. We learned how to create a simple blogging application using Angular on frontend and cloud firestore as database.
+
+
+# Delete a blog post
+
+We will add the feature of deleting a blog. Add the following code in the blog service.
+
+    deletePost(blogID: string) {
+    	return  this.db.doc('blogs/' + blogID).delete();
+    }
+
+Open [`src/app/components/blog-card/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts) and add the delete method definition as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L26-L34](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L26-L34)
+
+    delete(postId) {
+    if (confirm('Are you sure')) {
+      this.blogService.deletePost(postId).then(
+    	() => {
+    	  alert("Blog deleted successfully");
+    	}
+      );
+	 }
+    }
+
+
+# Edit an existing blog post
+
+We will now implement the functionality to edit an existing blog. Add the following code definition in [`blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L36).
+
+    updatePost(postId: string, post: Post) {
+    	const  putData = JSON.parse(JSON.stringify(post));
+    	return  this.db.doc('blogs/' + postId).update(putData);
+    }
+
+Add the routing for edit functionality in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L44](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L44)
+
+    RouterModule.forRoot([
+      ...
+      { path: 'editpost/:id', component: BlogEditorComponent },
+      ...
+    ])
+
+We will fetch the id of the blog from the URL with the help of `ActivatedRoute` class. Open [`blog-editor.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L26) and add the following code in the constructor.
+
+    if (this._route.snapshot.params['id']) {
+    	this.postId = this._route.snapshot.paramMap.get('id');
+    }
+    
+Update the `ngOnInit` method inside the `BlogEditorComponent` class  as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L31-L43](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L31-L43)
+
+    ngOnInit() {
+    this.setEditorConfig();
+    if (this.postId) {
+      this.formTitle = 'Edit';
+      this.blogService.getPostbyId(this.postId).subscribe(
+    	(result: Post) => {
+    	  if (result) {
+    		this.setPostFormData(result);
+    	  }
+    	}
+      );
+     }
+    }
+
+We will add the method to set the edit form when we click on “Edit” button on blog card in the home page. The method definition is shown below.
+
+    setPostFormData(postFormData) {
+    	this.postData.title = postFormData.title;
+    	this.postData.content = postFormData.content;
+    }
+
+Upon clicking on Save we need to handle to case of both adding a new blog as well as editing an existing blog. Hence we will update the `saveBlogPost` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L68-L83](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L68-L83)
+
+
 # Next Steps
 
 We can extend this application by adding new features. Some of them are mentioned below.
