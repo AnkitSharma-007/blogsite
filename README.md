@@ -3,19 +3,23 @@ Install the following software.
  - [Nodejs (LTS Version)](https://nodejs.org/en/)
  - [Angular CLI](https://cli.angular.io/)
  - [Visual Studio Code](https://code.visualstudio.com/)
+
+
 # Create a new Angular app
 Run the command shown below to create a new Angular app named as blogsite.
 
-    ng new blogsite
+    ng new blogsite --routing=false --style=scss
 
-Provide the answers for the options as shown below.
+### Open Visual Studio Code
+Change directory to the new project and open the project in VS Code.
 
- - Would you like to add Angular routing? (y/N) – N
- - Which stylesheet format would you like to use? – SCSS
+    cd blogsite
+    code .
 
 
 # Configuring firebase
-We will create a project on firebase and configure cloud firestore database for it. We will use this databse for our angular application. the steps are shown below.
+We will create a project on firebase and configure cloud firestore database for it. We will use this database for our angular application. the steps are shown below.
+
 ### Creating a project on firebase
 To create a new project on firebase follow the steps mentioned below.
  - Navigate to
@@ -25,28 +29,33 @@ To create a new project on firebase follow the steps mentioned below.
  - Enter you project name. You can give any name of your choice. Here we
    will use the name `ngBlog`.
  - Accept the terms and click on Continue.
- - Select “Not right now”, click on “Create your project”.
+ - If asked to setup Google Analytics, select “Not right now”
+ - Click on “Create your project”.
  - Once the project is ready click Continue.
+
 ### Add Firebase configuration to your application
  - Click on the “Web” icon on the page.
  - Provide a nickname for your app and click on “Register app”. 
- - Copy the script under “web app's Firebase configuration”.
- - Put the script in `src\environments\environment.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/environments/environment.ts#L7-L15](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/environments/environment.ts#L7-L15)
- - Similarly, add the script to `src\environments\environment.prod.ts` file as shown at https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/environments/environment.prod.ts#L3-L11
- - Add reference in app.module.ts as shown at https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/app.module.ts#L12
+ - Copy the `firebaseConfig` object from the `<script>` tag.
+ - Paste the copied code into [`src/environments/environment.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/environments/environment.ts#L7-L15).
+ - Similarly, paste the code into [`src/environments/environment.prod.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/environments/environment.prod.ts#L3-L11).
+ - Import the `environment` constant after the `AppComponent` import, into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/app.module.ts#L12).
+ - Click "Continue to the console" on the Firebase web page.
 
-### Create Database for Firebase project
-
- - Navigate to Project overview page of your project. 
- - Select “Database”under “Develop” menu from the list on the left.
+### Create "Cloud Firestore" database
+ - Navigate to the "Project Overview" page of your Firebase project. 
+ - Select “Database” under “Develop” menu from the list on the left.
  - Click on “Create database” button. 
- - Select “Start in test mode”. Click Next. Click “Done”
+ - Select “Start in test mode”. Click "Next". Click “Done”
 The Cloud Firestore database is now configured for your Firebase project.
-# Install @angular/fire and firebase as dependencies for your app
+
+
+# Install @angular/fire and firebase
 Run the command shown below in the command prompt
 
     npm install firebase @angular/fire --save
-Import the libraries in `app.module.ts` as shown below.
+
+Import the libraries in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/app.module.ts#L3-L4) as shown below.
    
     import { AngularFireModule } from '@angular/fire';
     import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -59,133 +68,154 @@ Import the libraries in `app.module.ts` as shown below.
 	    AngularFirestoreModule,],
     ...
     })
-# Add Angular material package
 
-To install Angular material in our app we will execute the following command in the console.
+
+# Install Angular Material packages
+Execute the following command in the console.
 
     npm install --save @angular/material @angular/cdk @angular/animations
 
-After installation we will import it in `app.module.ts` file as shown below.
+After installation import it into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/app.module.ts#L5) file as shown below.
 
     import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     
     @NgModule({
-    imports: [
-	    // other imports
-	    BrowserAnimationsModule],
+      ...
+      imports: [
+        ...
+        BrowserAnimationsModule,
+      ],
     })
 
-Some features of Angular material require `HammerJS`. Therefore, we will install it using the command shown below.
+Some features of Angular material require `HammerJS`. Install it using the command shown below.
 
     npm install --save hammerjs
 
-After installing, we will import it in the `src/main.ts`. This file is the entry point of our app.
+After installation import it into [`src/main.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/main.ts#L6). This file is the entry point of our app.
 
     import 'hammerjs';
 
-# Add a material theme
 
-We will add an inbuilt material theme globally by including the following line in `styles.scss` file.
+# Add a material theme
+We will add an built-in material theme globally by including the following line in [`src/styles.scss`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/styles.scss#L3) file.
 
     @import  "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-# Adding a module for Angular material
 
+# Add a module for Angular material
 We will create a new module to include all the material related components. Run the following command in the console to create a new module.
 
     ng g m ng-material
 
-open `src\app\ng-material\ng-material.module.ts` file and put the code as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/ng-material/ng-material.module.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/ng-material/ng-material.module.ts)
+Open `src/app/ng-material/ng-material.module.ts` and replace what is there with the code in [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/ng-material/ng-material.module.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/ng-material/ng-material.module.ts)
 
-Add the reference for this module in `app.module.ts` file as shown below.
+Import this new `NgMaterialModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/app.module.ts#L6) file as shown below.
 
     import { NgMaterialModule } from  './ng-material/ng-material.module';
     
     @NgModule({
-    
-    imports: [
-	    // other imports
-	    NgMaterialModule
-    ],
+      ...
+      imports: [
+        ...
+        NgMaterialModule,
+      ],
     })
 
-# Add Bootstrap package
 
-Run the following command to install Bootstrap in your app.
+# Add Bootstrap CSS package
+Run the following command to install [Bootstrap](https://getbootstrap.com/) in your app.
 
     npm install bootstrap --save
 
-Include the reference of Bootstrap globally in `styles.scss` file as shown below.
+Include the reference of Bootstrap globally in [`src/styles.scss`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/styles.scss#L4) file as shown below.
 
     @import  "~bootstrap/dist/css/bootstrap.css";
 
-# Adding Navigation Bar
 
-We will generate a component for navigation bar using following command
+# Serve the application
+Open a new terminal window and run the following command.
+
+    ng serve
+
+The CLI will now serve the application at `localhost:4200` and recompile and reload whenever a file changes.
+
+
+# Add Navigation Bar
+Run the following command, in the original terminal, to generate a navigation bar component.
 
     ng g c components/nav-bar
 
-open `components\nav-bar\nav-bar.component.html` and put the following code in it.
+Open `src/app/components/nav-bar/nav-bar.component.html` and replace what is there with the following code.
 
-    <mat-toolbar  class="nav-bar mat-elevation-z2"></mat-toolbar>
+    <mat-toolbar class="nav-bar mat-elevation-z2"></mat-toolbar>
 
-We will add the styling for nav bar in styles.scss as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L25](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L25)
+We will add the styling for nav bar in [`src/styles.scss`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/styles.scss#L14-L25) as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L25](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L25)
 
-# Creating the Home Page
 
+# Create the Home Page
 Run the following command to create the HomeComponent
 
     ng g c components/home
 
-At this point of time we will not add any code in HomeComponent. We will revisit in later part of this workshop.
+At this point in time we will not add any code to `HomeComponent`. We will revisit in a later part of this workshop.
 
-# Adding Router module
 
-We will add the RouterModule in `app.module.ts` file as shown below.
+# Add Router module
+We will add the `RouterModule` into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/app.module.ts#L7) as shown below.
 
-    import { RouterModule } from  '@angular/router';
+    import { RouterModule } from '@angular/router';
     
     @NgModule({
-    
-    imports: [
-    // other imports
-    
-	    RouterModule.forRoot([
-		    { path:  '', component:  HomeComponent, pathMatch:  'full' },    
-		    { path:  '**', component:  HomeComponent }  
-	    ])
-    ],
+      ...    
+      imports: [
+        ...
+        RouterModule.forRoot([
+          { path: '', component: HomeComponent, pathMatch: 'full' },
+          { path: '**', component: HomeComponent }
+        ]),
+      ],
     })
 
-# Updating the app.component.html file
 
-Open `app.component.html` and replace the content of the file with the following code.
+# Update the `AppComponent`
+Open [`src/app/app.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/app.component.html) and replace the content of the file with the following code.
 
     <app-nav-bar></app-nav-bar>
     <div  class="container">
-	    <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </div>
 
-Add the styles as shown in `styles.scss` at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L6-L12](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L6-L12)
+Add the following styles to [`src/styles.scss`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/styles.scss#L6-L12)
 
-# Add modules for reactive forms FormsModule
+    body {
+      background-color: #fafafa;
+    }
 
-We will add the FormsModule in `app.module.ts` as shown below.
+    .container {
+      padding-top: 60px;
+    }
+
+
+# Add Forms module
+We will add the `FormsModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/app.module.ts#L8) as shown below.
 
     import { FormsModule } from  '@angular/forms';
     
-    imports: [
-	    // other imports
-	    FormsModule,
-    ],
+    @NgModule({
+      ...    
+      imports: [
+        ...
+        FormsModule,
+      ],
     })
-# Creating a model
 
-Create a folder `models` under `src\app` folder. Create a new file `post.ts` in models folder. Open the `post.ts` file and put the following code as shown in the file at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts)
 
-# Add CkEditor package
+# Creating the data model
+Create new a folder `src/app/models`. Create a new file `src/app/models/post.ts` and paste the code as shown in the file at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts)
 
-We will use CKEditor for adding and editing our blog post. CKEditor is a Smart WYSIWYG editor which provides us great editing capabilities.
+
+# Install CkEditor package
+We will use [CKEditor](https://ckeditor.com/) for adding and editing our blog post. CKEditor is a Smart WYSIWYG editor which provides us great editing capabilities.
 
 Execute the commands shown below to install the CKEditor WYSIWYG editor component for Angular.
 
@@ -195,76 +225,148 @@ Run the command shown below to install one of the official editor builds which i
 
     npm install --save @ckeditor/ckeditor5-build-classic
 
-Add the imports in `app.module.ts` as shown below.
+Imports the `CKEditorModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/app.module.ts#L9) as shown below.
 
     import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
     @NgModule( {
-    imports: [
-	    // other imports
-	    CKEditorModule,
-    ],
+      imports: [
+        ...
+        CKEditorModule,
+      ],
     })
 
-# Adding the blog editor
+
+# Add the blog editor
 
 We will create a new component for adding and editing the blog. Run the command as shown below.
 
     ng g c components/blog-editor
 
-Add the router link for this component in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L43](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L43)
 
-Open `components\blog-editor\blog-editor.component.ts` and add the import definitions as shown at  [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L43](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L43)
+### Add a route to the addpost page
+Add the route for this component in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L43](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L43)
 
-We will also initialize some variable as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L16-L20](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L16-L20)
+    RouterModule.forRoot([
+      ...
+      { path: 'addpost', component: BlogEditorComponent },
+      ...
+    ])
 
+### Add CKEditor to `BlogEditorComponent`
+Open `components/blog-editor/blog-editor.component.ts` and add the import definitions as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L2-L6](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L2-L6)
+
+    import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+    import { Post } from 'src/app/models/post';
+    import { DatePipe } from '@angular/common';
+    import { BlogService } from 'src/app/services/blog.service';
+    import { Router, ActivatedRoute } from '@angular/router';
+
+We will also initialize some properties as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L16-L20](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L16-L20)
+
+    public Editor = ClassicEditor;
+    ckeConfig: any;
+    postData = new Post();
+    formTitle = 'Add';
+    postId = '';
+    
 We will create a method to define the configuration for the blog editor. You can get the method definition from [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L50-L66](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L50-L66)
+
+    setEditorConfig() {
+      this.ckeConfig = {
+        removePlugins: ['ImageUpload', 'MediaEmbed'],
+        heading: {
+          options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
+            { model: 'Formatted', view: 'pre', title: 'Formatted' },
+          ]
+        }
+      };
+    }
 
 We will invoke this method inside `ngOnInit` as shown below.
 
-    this.setEditorConfig();
+    ngOnInit() {
+      this.setEditorConfig();
+    }
 
-open `components\blog-editor\blog-editor.component.html` and put the code as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.html)
+### Update the BlogEditorComponent template
+Open `src/app/components/blog-editor/blog-editor.component.html` and put the code as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.html)
 
-# Creating the blog service
+    <h1>{{formTitle}} Post</h1>
+    <hr />
+    <form #myForm="ngForm" (ngSubmit)="myForm.form.valid && saveBlogPost()" accept-charset="UTF-8" novalidate>
+        <input type="text" class="blogHeader" placeholder="Add title..." class="form-control" name="postTitle"
+            [(ngModel)]="postData.title" #postTitle="ngModel" required />
+        <span class="text-danger" *ngIf="myForm.submitted && postTitle.errors?.required">
+            Title is required
+        </span>
+        <br />
+        <div class="form-group">
+            <ckeditor name="myckeditor" [config]="ckeConfig" [(ngModel)]="postData.content" #myckeditor="ngModel"
+                debounce="300" [editor]="Editor"></ckeditor>
+        </div>
+        <div class="form-group">
+            <button type="submit" mat-raised-button color="primary">Save</button>
+            <button type=" button" mat-raised-button color="warn" (click)="cancel()">CANCEL</button>
+        </div>
+    </form>
 
+
+# Create the blog service
 We will create a service to handle our the database operation. Create a new service using the command shown below.
 
     ng g s services/blog
 
-Open the `src\app\services\blog.service.ts` file and add the following import definitions.
+Open the [`src/app/services/blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/services/blog.service.ts#L2-L5) file and add the following import definitions.
 
     import { AngularFirestore } from  '@angular/fire/firestore';
-    import { Post } from  '../models/Post';
+    import { Post } from  '../models/post';
     import { map } from  'rxjs/operators';
     import { Observable } from  'rxjs';
 
-Inject the AngularFirestore in the constructor as shown at 
-[https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L12](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L12)
+Inject the `AngularFirestore` in the constructor.
+
+    constructor(private db: AngularFirestore) { }
 
 Now we will add the method to create a new post. The method to add a new blog post is shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L14-L17](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L14-L17). Put this method in `blog.service.ts` file.
 
+    createPost(post: Post) {
+      const postData = JSON.parse(JSON.stringify(post));
+      return this.db.collection('blogs').add(postData);
+    }
+
+
 # Add a new blog
+We will now implement the feature of adding a new blog to our application. Open [`src/app/components/blog-editor.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/components/blog-editor/blog-editor.component.ts#L22-L25) and inject the following service definitions in the constructor.
 
-We will now implement the feature of adding a new blog to our application. Open blog.service.ts and inject the following service definitions in the constructor.
+    constructor(private  _route: ActivatedRoute,
+      private  datePipe: DatePipe,
+      private  blogService: BlogService,
+      private  _router: Router) { }
 
-    private  _route: ActivatedRoute,
-    private  datePipe: DatePipe,
-    private  blogService: BlogService,
-    private  _router: Router
+Add the following code in `@Component` decorator `DatePipe` can be injected.
 
-Add the following code in `@Component` decorator for using Date pipe
+    @Component({
+      ...
+      providers: [DatePipe]
+    }
 
-    providers: [DatePipe]
-
-We will create a new method called `saveBlogPost` which is used to add a new to our databse. The definition for this method is shown below.
+We will create a new method called `saveBlogPost` which is used to add a new post to our database. The definition for this method is shown below.
 
     saveBlogPost() {
-    this.postData.createdDate = this.datePipe.transform(Date.now(), 'MM-dd-yyyy HH:mm');
-    this.blogService.createPost(this.postData).then(
-      () => {
-    	this._router.navigate(['/']);
-      }
-    );
+      this.postData.createdDate = this.datePipe.transform(Date.now(), 'MM-dd-yyyy HH:mm');
+      this.blogService.createPost(this.postData).then(
+        () => {
+        this._router.navigate(['/']);
+        }
+      );
     }
 
 This method will be invoked on click of Save button. We will add the following code definition for Cancel button.
@@ -273,70 +375,158 @@ This method will be invoked on click of Save button. We will add the following c
     	this._router.navigate(['/']);
     }
 
-# Adding buttons in Nav bar
 
-We will add the navigation button to blog editor and home page in the nav bar. Add the following code in the `<mat-toolbar>` element.
+# Add buttons in Nav bar
+We will add the navigation button to blog editor and home page in the nav bar. Add the following code to the `<mat-toolbar>` element in [`src/app/components/nav-bar/nav-bar.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/components/nav-bar/nav-bar.component.html#L2-L5).
 
-    <button  mat-button  [routerLink]='[""]'> My blog </button>
-    <button  mat-button  [routerLinkActive]='["link-active"]'  [routerLink]='["/addpost"]'>
-    Add Post
-    </button>
+    <mat-toolbar class="nav-bar mat-elevation-z2">
+        <button mat-button [routerLink]='[""]'> My blog </button>
+        <button mat-button [routerLinkActive]='["link-active"]' [routerLink]='["/addpost"]'>
+            Add Post
+        </button>
+    </mat-toolbar>
 
-### Updating Styles.scss
 
+### Add BlogEditorComponent styles 
 We will add styling for blog editor in `styles.scss` file as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L22-L56](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L22-L56)
 
-Open the browser and click on “AddPost” button on the nav-bar. You will be navigated to the blog editor page. Add a new blog and click on save button to save the blog in thee database. Open the firebase console, navigate to your project overview page and click on “Database” link in the menu on the left. Here you can see the record for your newly added blog.
-# Creating custom pipes
+    .ck-editor__editable {
+      max-height: 350px;
+      min-height: 350px;
+    }
+    
+    pre {
+      display: block;
+      padding: 9.5px;
+      margin: 0 0 10px;
+      font-size: 13px;
+      line-height: 1.42857143;
+      color: #333;
+      word-break: break-all;
+      word-wrap: break-word;
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
+    blockquote {
+      display: block;
+      padding: 10px 20px;
+      margin: 0 0 20px;
+      font-size: 17.5px;
+      border-left: 5px solid #eee;
+    }
+
+    img{
+      max-width: 100%;
+    }
+
+### Test it out
+Open the browser and click on “AddPost” button on the nav-bar. You will be navigated to the blog editor page. Add a new blog and click on save button to save the blog in thee database. Open the firebase console, navigate to your project overview page and click on “Database” link in the menu on the left. Here you can see the record for your newly added blog.
+
+
+# Create custom pipes
 We will add two custom pipes in our app
 
- - **Excerpt**:  which will shown a summary of blog in blog card.
- - **Slug**:  which will show the URL slug for blog.
+ - **Excerpt**:  which will show a summary of post in blog card.
+ - **Slug**:  which will show the URL slug for a post.
 
 Run the following command to generate the excerpt pipe.
 
     ng g p custompipes/excerpt
 
-Add the code definition as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts)
+Replace the `transform` method with the following, as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts)
+
+    transform(content: string) {
+      const postSummary = content.replace(/(<([^>]+)>)/ig, '');
+      if (postSummary.length > 300) {
+        return postSummary.substr(0, 300) + ' [...]';
+      } else {
+        return postSummary;
+      }
+    }
 
 Run the following command to generate the slug pipe.
 
     ng g p custompipes/slug
 
-Add the code definition as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/slug.pipe.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/slug.pipe.ts)
+Replace the `transform` method with the following, as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/slug.pipe.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/slug.pipe.ts)
+
+    transform(title: string) {
+      const urlSlug = title.trim().toLowerCase().replace(/ /g, '-');
+      return urlSlug;
+    }
+
 
 # Get the blogs from database
+We will add the `getAllPosts` method in `src/app/services/blog.service.ts` file to fetch all the blog posts from database. The definition for `getAllPosts` is shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L19-L29](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L19-L29)
 
-We will add the method in `blog.service.ts` file to fetch all the blog from database. The definition for the method `getAllPosts` is shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L19-L29](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L19-L29)
+    getAllPosts(): Observable<any> {
+      const blogs = this.db.collection('blogs', ref => ref.orderBy('createdDate', 'desc')).snapshotChanges().pipe(
+        map(actions => {
+          return actions.map(
+            c => ({
+              postId: c.payload.doc.id,
+              ...c.payload.doc.data()
+            }));
+        }));
+      return blogs;
+    }
 
+
+# Add a BlogCardComponent
 Run the command shown below to create the blog card component.
 
     ng g c components/blog-card
 
-Open `blog-card.component.ts` and add import definitions as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L2-L3](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L2-L3)
+Open [`src/app/components/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/components/blog-card/blog-card.component.ts) and add the following imports
+
+    import { BlogService } from 'src/app/services/blog.service';
+    import { Post } from 'src/app/models/post';
 
 Inject the Blog Service in the constructor of `BlogCardComponent` class as shown below.
 
-    private blogService: BlogService
+    constructor(private blogService: BlogService) { }
 
-Now we will create a method to get the blog post and invoke it inside `ngOnInit`. The method definition is shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L16-L24](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L16-L24)
+Add a property to hold the current blog post.
 
-Open the `blog-card.component.html` file and add the code as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html)
+    blogPost: Post[] = [];
 
-Open `components\blog-card\blog-card.component.scss` and put the style definitions as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.scss](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.scss)
+Now we will create a method to get the blog post and invoke it inside `ngOnInit`.
 
-# Revisiting the home component
+    ngOnInit() {
+      this.getBlogPosts();
+    }
 
-We will display the blog card on home page. Open `home.component.html` and put the code as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/home/home.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/home/home.component.html)
+    getBlogPosts() {
+      this.blogService.getAllPosts().subscribe(result => {
+        this.blogPost = result;
+      });
+    }
 
-Open `styles.scss` and add the following style definition inside it.
+Open `src/app/components/blog-card.component.html` and replace what is there with the HTML shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html)
+
+Open `src/app/components/blog-card/blog-card.component.scss` and replace what is there with the style definitions shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.scss](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.scss)
+
+
+# Add the BlogCardComponent to the home page
+
+We will display the blog card on home page. Open [`src/app/components/home.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/ed374620053380e75d8300932bea69b612760210/src/app/components/home/home.component.html#L1-L5) and replace what is there with the following HTML.
+
+    <div class="row left-panel">
+        <div class="col-md-9">
+            <app-blog-card></app-blog-card>
+        </div>
+    </div>
+
+Open `src/app/styles.scss` and add the following style definition inside it.
 
     .left-panel {
     	margin-top: 15px;
     }
 
-# Read a blog
+
+# Read a blog post
 
 We will add the feature of reading a blog. Run the following command to create the blog component
 
@@ -351,14 +541,16 @@ Add the following method definition in `blog.service.ts` file.
     	return  userDetails;
     }
 
-Open `components\blog\blog.component.ts` and add import definitions as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L2-L4](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L2-L4)
+Open `components/blog/blog.component.ts` and add import definitions as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L2-L4](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L2-L4)
 
 Now put the code inside `BlogComponent` class as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L13-L30](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.ts#L13-L30)
 
-Open `components\blog\blog.component.html` and put the code as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.html)
+Open `components/blog/blog.component.html` and put the code as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.html)
 
 Finally we will add styling in the `styles.scss` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L62-L85](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L62-L85)
-# Deleting a blog
+
+
+# Delete a blog post
 
 We will add the feature of deleting a blog. Add the following code in the blog service.
 
@@ -366,8 +558,10 @@ We will add the feature of deleting a blog. Add the following code in the blog s
     	return  this.db.doc('blogs/' + blogID).delete();
     }
 
-Open `components\blog-card\blog-card.component.ts` and add the delete method definition as shown as [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L41-L44](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L41-L44)
-# Edit an existing blog
+Open `components/blog-card/blog-card.component.ts` and add the delete method definition as shown as [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L41-L44](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L41-L44)
+
+
+# Edit an existing blog post
 
 We will now implement the functionality to edit an existing blog. Add the following code definition in blog service.
 
@@ -395,7 +589,8 @@ We will add the method to set the edit form when we click on “Edit” button o
 
 Upon clicking on Save we need to handle to case of both adding a new blog as well as editing an existing blog. Hence we will update the `saveBlogPost` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L68-L83](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L68-L83)
 
-# Deploy the app on Firebase
+
+# Deploy the app on Firebase Hosting
 
 The last step is to deploy the app on firebase. We will follow the steps as shown below.
 
@@ -407,7 +602,7 @@ The last step is to deploy the app on firebase. We will follow the steps as show
 
     ng build --prod
 
-**Step 3**: Open a command prompt window inside the `\dist\blogsite` folder. And run the following command to login using firebase.
+**Step 3**: Open a command prompt window inside the `/dist/blogsite` folder. And run the following command to login using firebase.
 
     firebase login
 
