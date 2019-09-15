@@ -628,7 +628,7 @@ Finally we will add styling for `BlogComponent`. Open `src/app/components/blog/b
 
 # Deploy the app on Firebase Hosting
 
-The last step is to deploy the app on firebase. We will follow the steps as shown below.
+The next step is to deploy the app on firebase. We will follow the steps as shown below.
 
 **Step 1**: Install firebase CLI tools via npm. Run the command as shown below.
 
