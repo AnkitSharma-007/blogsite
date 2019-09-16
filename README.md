@@ -51,7 +51,7 @@ Change directory to the new project and open the project in VS Code.
 
 
 # Configuring firebase
-We will create a project on firebase and configure cloud firestore database for it. We will use this database for our angular application. the steps are shown below.
+We will create a project on firebase and configure cloud firestore database for it. We will use this database for our angular application. The steps are shown below.
 
 ### Creating a project on firebase
 To create a new project on firebase follow the steps mentioned below.
@@ -98,7 +98,8 @@ Import the libraries in [`src/app/app.module.ts`](https://github.com/AnkitSharma
     imports: [
 	    // other imports
 	    AngularFireModule.initializeApp(environment.firebaseConfig),
-	    AngularFirestoreModule,],
+	    AngularFirestoreModule,
+      ],
     ...
     })
 
@@ -271,6 +272,30 @@ Create new a folder `src/app/models`. Create a new file [`src/app/models/post.ts
     }
 
 
+# Create the blog service
+We will create a service to handle our the database operation. Create a new service using the command shown below.
+
+    ng g s services/blog
+
+Open the [`src/app/services/blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L2-L5) file and add the following import definitions.
+
+    import { AngularFirestore } from  '@angular/fire/firestore';
+    import { Post } from  '../models/post';
+    import { map } from  'rxjs/operators';
+    import { Observable } from  'rxjs';
+
+Inject the `AngularFirestore` in the constructor.
+
+    constructor(private db: AngularFirestore) { }
+
+Now we will add the method to create a new post. The method to add a new blog post is shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L14-L17](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L14-L17). Put this method in `blog.service.ts` file.
+
+    createPost(post: Post) {
+      const postData = JSON.parse(JSON.stringify(post));
+      return this.db.collection('blogs').add(postData);
+    }
+
+
 # Install CkEditor package
 We will use [CKEditor](https://ckeditor.com/) for adding and editing our blog post. CKEditor is a Smart WYSIWYG editor which provides us great editing capabilities.
 
@@ -376,30 +401,6 @@ Open `src/app/components/blog-editor/blog-editor.component.html` and put the cod
     </form>
 
 
-# Create the blog service
-We will create a service to handle our the database operation. Create a new service using the command shown below.
-
-    ng g s services/blog
-
-Open the [`src/app/services/blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L2-L5) file and add the following import definitions.
-
-    import { AngularFirestore } from  '@angular/fire/firestore';
-    import { Post } from  '../models/post';
-    import { map } from  'rxjs/operators';
-    import { Observable } from  'rxjs';
-
-Inject the `AngularFirestore` in the constructor.
-
-    constructor(private db: AngularFirestore) { }
-
-Now we will add the method to create a new post. The method to add a new blog post is shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L14-L17](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L14-L17). Put this method in `blog.service.ts` file.
-
-    createPost(post: Post) {
-      const postData = JSON.parse(JSON.stringify(post));
-      return this.db.collection('blogs').add(postData);
-    }
-
-
 # Add a new blog
 We will now implement the feature of adding a new blog to our application. Open [`src/app/components/blog-editor.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L22-L25) and inject the following service definitions in the constructor.
 
@@ -492,7 +493,7 @@ Run the following command to generate the excerpt pipe.
 
     ng g p custompipes/excerpt
 
-Replace the `transform` method with the following, as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts)
+Replace the `transform` method with the following, as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts#L5-L12](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts#L5-L12)
 
     transform(content: string) {
       const postSummary = content.replace(/(<([^>]+)>)/ig, '');
@@ -507,7 +508,7 @@ Run the following command to generate the slug pipe.
 
     ng g p custompipes/slug
 
-Replace the `transform` method with the following, as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/slug.pipe.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/slug.pipe.ts)
+Replace the `transform` method with the following, as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/slug.pipe.ts#L5-L8](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/slug.pipe.ts#L5-L8)
 
     transform(title: string) {
       const urlSlug = title.trim().toLowerCase().replace(/ /g, '-');
@@ -589,9 +590,9 @@ We will add the feature of reading a blog. Run the following command to create t
 
     ng g c components/blog
 
-Add the router link for this component in [`app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L44) as shown below
+Add the router link for this component in [`app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L43) as shown below
 
-	{ path: 'editpost/:id', component: BlogEditorComponent },
+    { path: 'blog/:id/:slug', component: BlogComponent },
 	
 Add the following method definition in [`blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L31) file.
 
@@ -670,7 +671,7 @@ This completes our application. We learned how to create a simple blogging appli
 
 # Delete a blog post
 
-We will add the feature of deleting a blog. Add the following code in the [`src/app/services/blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L41-L44).
+We will add the feature of deleting a blog. Add the following code in the [`src/app/services/blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L41-L43).
 
     deletePost(blogID: string) {
     	return  this.db.doc('blogs/' + blogID).delete();
@@ -681,12 +682,12 @@ Open [`src/app/components/blog-card/blog-card.component.ts`](https://github.com/
     delete(postId) {
     if (confirm('Are you sure')) {
       this.blogService.deletePost(postId).then(
-    	() => {
-    	  alert("Blog deleted successfully");
-    	}
+        () => {
+          alert("Blog deleted successfully");
+        }
       );
-	 }
     }
+  }
 
 
 # Edit an existing blog post
@@ -736,6 +737,23 @@ We will add the method to set the edit form when we click on “Edit” button o
     }
 
 Upon clicking on Save we need to handle to case of both adding a new blog as well as editing an existing blog. Hence we will update the `saveBlogPost` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L68-L83](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-editor/blog-editor.component.ts#L68-L83)
+
+    saveBlogPost() {
+    if (this.postId) {
+      this.blogService.updatePost(this.postId, this.postData).then(
+        () => {
+          this._router.navigate(['/']);
+        }
+      );
+    } else {
+      this.postData.createdDate = this.datePipe.transform(Date.now(), 'MM-dd-yyyy HH:mm');
+      this.blogService.createPost(this.postData).then(
+        () => {
+          this._router.navigate(['/']);
+        }
+      );
+     }
+    }
 
 
 # Next Steps
