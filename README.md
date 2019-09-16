@@ -639,7 +639,7 @@ The next step is to deploy the app on firebase. We will follow the steps as show
 
     ng build --prod
 
-**Step 3**: Open a command prompt window inside the `/dist/blogsite` folder. And run the following command to login using firebase.
+**Step 3**: Open a command prompt window inside the `/blogsite/dist` folder. And run the following command to login using firebase.
 
     firebase login
 
@@ -656,7 +656,7 @@ This command will initialize a firebase project. You will be asked a set of ques
 - Select a default Firebase project for this directory: Select your project name from the list.
 - What do you want to use as your public directory? – blogsite
 - Configure as a single-page app (rewrite all urls to /index.html)? – y
-- File dist/index.html already exists. Overwrite? – N
+- File blogsite/index.html already exists. Overwrite? – N
 
 You will get a “Firebase initialization complete!” message.
 
@@ -665,8 +665,6 @@ You will get a “Firebase initialization complete!” message.
     firebase deploy
 
 This command will deploy your angular application on Firebase and upon success it will give you a hosting URL.
-
-This completes our application. We learned how to create a simple blogging application using Angular on frontend and cloud firestore as database.
 
 
 # Delete a blog post
@@ -754,6 +752,8 @@ Upon clicking on Save we need to handle to case of both adding a new blog as wel
       );
      }
     }
+
+This completes our application. We learned how to create a simple blogging application using Angular on frontend and cloud firestore as database.
 
 
 # Next Steps
