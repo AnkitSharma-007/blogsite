@@ -625,6 +625,26 @@ Open [`src/app/components/blog/blog.component.html`](https://github.com/AnkitSha
 Finally we will add styling for `BlogComponent`. Open `src/app/components/blog/blog.component.scss` and replace what is there with the style definitions shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.scss](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.scss)
 
 
+# Delete a blog post
+
+We will add the feature of deleting a blog. Add the following code in the [`src/app/services/blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L41-L43).
+
+    deletePost(blogID: string) {
+    	return  this.db.doc('blogs/' + blogID).delete();
+    }
+
+Open [`src/app/components/blog-card/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts) and add the delete method definition as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L26-L34](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L26-L34)
+
+    delete(postId) {
+    if (confirm('Are you sure')) {
+      this.blogService.deletePost(postId).then(
+        () => {
+          alert("Blog deleted successfully");
+        }
+      );
+     }
+    }
+
 # Deploy the app on Firebase Hosting
 
 The next step is to deploy the app on firebase. We will follow the steps as shown below.
@@ -662,28 +682,9 @@ You will get a “Firebase initialization complete!” message.
 
     firebase deploy
 
-This command will deploy your angular application on Firebase and upon success it will give you a hosting URL.
+This command will deploy your angular application on Firebase and upon success it will give you a hosting URL. Navigate to the hosting URL to see your deployed app in action.
 
-
-# Delete a blog post
-
-We will add the feature of deleting a blog. Add the following code in the [`src/app/services/blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L41-L43).
-
-    deletePost(blogID: string) {
-    	return  this.db.doc('blogs/' + blogID).delete();
-    }
-
-Open [`src/app/components/blog-card/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts) and add the delete method definition as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L26-L34](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L26-L34)
-
-    delete(postId) {
-    if (confirm('Are you sure')) {
-      this.blogService.deletePost(postId).then(
-        () => {
-          alert("Blog deleted successfully");
-        }
-      );
-    }
-  }
+You can also find the hosting URL on firebase dashboard. Navigate to the "Project Overview" page of your Firebase project. Select “Hosting” under “Develop” menu from the list on the left. You can see the domain names for your web app in the panel on the right.
 
 
 # Edit an existing blog post
