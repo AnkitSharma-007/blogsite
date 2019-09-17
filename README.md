@@ -228,7 +228,7 @@ We will add the `RouterModule` into [`src/app/app.module.ts`](https://github.com
 Open [`src/app/app.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.component.html) and replace the content of the file with the following code.
 
     <app-nav-bar></app-nav-bar>
-    <div  class="container">
+    <div class="container">
       <router-outlet></router-outlet>
     </div>
 
@@ -258,7 +258,7 @@ We will add the `FormsModule` in [`src/app/app.module.ts`](https://github.com/An
 
 
 # Creating the data model
-Create new a folder `src/app/models`. Create a new file [`src/app/models/post.ts`]([https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts)) and paste the following code
+Create new a folder `src/app/models`. Create a new file [`src/app/models/post.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/post.ts) and paste the following code
 
     export class Post {
 	    postId: string;
@@ -437,12 +437,10 @@ This method will be invoked on click of Save button. We will add the following c
 # Add buttons in Nav bar
 We will add the navigation button to blog editor and home page in the nav bar. Add the following code to the `<mat-toolbar>` element in [`src/app/components/nav-bar/nav-bar.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.html#L2-L5).
 
-    <mat-toolbar class="nav-bar mat-elevation-z2">
-        <button mat-button [routerLink]='[""]'> My blog </button>
-        <button mat-button [routerLinkActive]='["link-active"]' [routerLink]='["/addpost"]'>
-            Add Post
-        </button>
-    </mat-toolbar>
+    <button mat-button [routerLink]='[""]'> My blog </button>
+    <button mat-button [routerLinkActive]='["link-active"]' [routerLink]='["/addpost"]'>
+        Add Post
+    </button>
 
 
 ### Add BlogEditorComponent styles 
