@@ -613,7 +613,7 @@ Open [`src/app/components/blog/blog.component.html`](https://github.com/AnkitSha
     <div class="docs-example-viewer-wrapper">
         <h1 class="entry-title">{{postData.title}}</h1>
         <mat-card-subtitle class="blog-info">
-            <i class="fa fa-calendar" aria-hidden="true"></i> {{postData.createdDate | date:'longDate'}}
+            {{postData.createdDate | date:'longDate'}}
         </mat-card-subtitle>
         <mat-divider></mat-divider>
         <div class="docs-example-viewer-body">
