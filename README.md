@@ -25,8 +25,8 @@
 - [Add a BlogCardComponent](https://github.com/AnkitSharma-007/blogsite#add-a-blogcardcomponent)
 - [Add the BlogCardComponent to the home page](https://github.com/AnkitSharma-007/blogsite#add-the-blogcardcomponent-to-the-home-page)
 - [Read a blog post](https://github.com/AnkitSharma-007/blogsite#read-a-blog-post)
-- [Deploy the app on Firebase Hosting](https://github.com/AnkitSharma-007/blogsite#deploy-the-app-on-firebase-hosting)
 - [Delete a blog post](https://github.com/AnkitSharma-007/blogsite#delete-a-blog-post)
+- [Deploy the app on Firebase Hosting](https://github.com/AnkitSharma-007/blogsite#deploy-the-app-on-firebase-hosting)
 - [Edit an existing blog post](https://github.com/AnkitSharma-007/blogsite#edit-an-existing-blog-post)
 - [Next Steps](https://github.com/AnkitSharma-007/blogsite#next-steps)
 
