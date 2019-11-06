@@ -4,7 +4,7 @@
     </div>
 </ng-template>
 <ng-container *ngIf="blogPost && blogPost.length>0; else emptyblog">
-    <div *ngFor="let post of blogPost">
+    <div *ngFor="let post of blogPost | paginate: config">
         <mat-card class="blog-card mat-elevation-z2">
             <mat-card-content>
                 <a class="blog-title" [routerLink]="['/blog/', post.postId, post.title | slug]">
@@ -26,4 +26,6 @@
             </mat-card-actions>
         </mat-card>
     </div>
+    <mat-divider></mat-divider>
+    <app-paginator [pageSizeOptions]="pageSizeOptions" [config]="config"></app-paginator>
 </ng-container>

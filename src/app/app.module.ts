@@ -7,6 +7,7 @@ import { NgMaterialModule } from './ng-material/ng-material.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
@@ -17,6 +18,7 @@ import { BlogCardComponent } from './components/blog-card/blog-card.component';
 import { ExcerptPipe } from './custompipes/excerpt.pipe';
 import { SlugPipe } from './custompipes/slug.pipe';
 import { BlogComponent } from './components/blog/blog.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +30,10 @@ import { BlogComponent } from './components/blog/blog.component';
     ExcerptPipe,
     SlugPipe,
     BlogComponent,
+    PaginatorComponent,
   ],
   imports: [
+    NgxPaginationModule,
     BrowserModule,
     CKEditorModule,
     FormsModule,
@@ -39,6 +43,7 @@ import { BlogComponent } from './components/blog/blog.component';
     AngularFirestoreModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'page/:pagenum', component: HomeComponent },
       { path: 'addpost', component: BlogEditorComponent },
       { path: 'blog/:id/:slug', component: BlogComponent },
       { path: 'editpost/:id', component: BlogEditorComponent },
