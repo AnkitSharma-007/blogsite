@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgMaterialModule } from './ng-material/ng-material.module';
 import { RouterModule } from '@angular/router';
@@ -19,6 +20,7 @@ import { ExcerptPipe } from './custompipes/excerpt.pipe';
 import { SlugPipe } from './custompipes/slug.pipe';
 import { BlogComponent } from './components/blog/blog.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
   ],
   imports: [
     NgxPaginationModule,
+    AngularFireAuthModule,
     BrowserModule,
     CKEditorModule,
     FormsModule,
@@ -44,9 +47,9 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'page/:pagenum', component: HomeComponent },
-      { path: 'addpost', component: BlogEditorComponent },
+      { path: 'addpost', component: BlogEditorComponent, canActivate: [AuthGuard] },
+      { path: 'editpost/:id', component: BlogEditorComponent, canActivate: [AuthGuard] },
       { path: 'blog/:id/:slug', component: BlogComponent },
-      { path: 'editpost/:id', component: BlogEditorComponent },
       { path: '**', component: HomeComponent }
     ])
   ],

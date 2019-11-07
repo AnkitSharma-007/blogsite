@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BlogService } from 'src/app/services/blog.service';
 import { Post } from 'src/app/models/post';
 import { ActivatedRoute } from '@angular/router';
+import { AppUser } from 'src/app/models/appuser';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-blog-card',
@@ -12,12 +14,15 @@ export class BlogCardComponent implements OnInit {
 
   config: any;
   pageSizeOptions = [];
-
   blogPost: Post[] = [];
+  appUser: AppUser;
 
   constructor(
     private blogService: BlogService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private authService: AuthService) {
+
+    this.authService.appUser$.subscribe(appUser => this.appUser = appUser);
 
     this.pageSizeOptions = [2, 4, 6];
     const pageSize = localStorage.getItem('pageSize');
