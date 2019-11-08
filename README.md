@@ -24,6 +24,7 @@
 - [Get the blogs from database](https://github.com/AnkitSharma-007/blogsite#get-the-blogs-from-database)
 - [Add a BlogCardComponent](https://github.com/AnkitSharma-007/blogsite#add-a-blogcardcomponent)
 - [Add the BlogCardComponent to the home page](https://github.com/AnkitSharma-007/blogsite#add-the-blogcardcomponent-to-the-home-page)
+- [Add Font Awesome and Material Icons libraries](https://github.com/AnkitSharma-007/blogsite#add-font-awesome-and-material-icons-libraries)
 - [Read a blog post](https://github.com/AnkitSharma-007/blogsite#read-a-blog-post)
 - [Delete a blog post](https://github.com/AnkitSharma-007/blogsite#delete-a-blog-post)
 - [Deploy the app on Firebase Hosting](https://github.com/AnkitSharma-007/blogsite#deploy-the-app-on-firebase-hosting)
@@ -589,7 +590,7 @@ Open [`src/app/components/home/home.component.scss`](https://github.com/AnkitSha
     }
 
 
-# Add Font Awesome library
+# Add Font Awesome and Material Icons libraries
 
 We will add [Font Awesome](https://fontawesome.com/) and `Material Icons` libraries in our application. We will use icon sets provided by these library for styling our app. Add the following lines in [index.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/index.html#L10-L12) file.
 
@@ -900,7 +901,7 @@ Now update the `ngOnInit` method as shown below.
 
 ### Update the BlogCardComponent template
 
-Open [`src/app/components/blog-card.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L29-L30) and add the paginator component as shown below.
+Open [`src/app/components/blog-card.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L30) and add the paginator component as shown below.
 
     <app-paginator [pageSizeOptions]="pageSizeOptions" [config]="config"></app-paginator>
 
@@ -1137,7 +1138,7 @@ To activate route guard for a particular route, we need to add `canActivate` pro
     { path: 'addpost', component: BlogEditorComponent, canActivate: [AuthGuard] },
 	{ path: 'editpost/:id', component: BlogEditorComponent, canActivate: [AuthGuard] },
 
-Thus we have successfully configured Google authentication for our application.
+Thus we have successfully configured Google authentication and implemented auth guards for our application.
 
 This completes our application. We learned how to create a simple blogging application using Angular on frontend and cloud firestore as database.
 
