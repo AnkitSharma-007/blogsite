@@ -225,7 +225,7 @@ We will add the `RouterModule` into [`src/app/app.module.ts`](https://github.com
     })
 
 
-# Update the `AppComponent`
+# Update the AppComponent
 Open [`src/app/app.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.component.html) and replace the content of the file with the following code.
 
     <app-nav-bar></app-nav-bar>
@@ -763,7 +763,7 @@ Execute the command shown below to install the ngx-pagination component for Angu
 
     npm i ngx-pagination
 
-Imports the `NgxPaginationModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L11) as shown below.
+Import the `NgxPaginationModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L11) as shown below.
 
     import { NgxPaginationModule } from  'ngx-pagination';
 
@@ -775,7 +775,7 @@ Imports the `NgxPaginationModule` in [`src/app/app.module.ts`](https://github.co
     })
  
 
-### Create the `PaginatorComponent`
+### Create the PaginatorComponent
 Run the following command, in the original terminal, to generate a Paginator component.
 
     ng g c components/paginator
@@ -899,21 +899,246 @@ We will also add a `paginate` pipe in our `ngFor` directive while iterating thro
 Open the browser and you can see a paginator on the home page. You can jump through the pages and the URL will change with the updated page number. You can also see a drop down besides the paginator which will allow you to select the number of items to show on each page.
 
 
+# Add Google authentication
+
+We will add the feature of login with Google account into our application. We have to enable the authentication feature from Firebase console. Follow the steps mentioned below to enable Google authentication on Firebase.
+- Navigate to the "Project Overview" page of your Firebase project.
+- Select “Authentication” under “Develop” menu from the list on the left.
+- Navigate to "Sign-in method" tab.
+- Click on "Google" from the available list of "Sign-in providers" on the page.
+- Click on Enable toogle button then click on "Save"
+
+Next we will configure our application for the Google authentication. 
+
+###  Creating the AppUser model
+
+Create a new file [`src/app/models/appuser.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/models/appuser.ts) and paste the following code.
+
+    export class AppUser {
+	    name: string;
+	    email: string;
+	    photoURL: string;
+	}
+
+We will create a service to handle the authentication. Create a new service using the command shown below.
+
+    ng g s services/auth
+
+Open the [`src/app/services/auth.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L1-L8) file and add the following import definitions.
+
+    import { Injectable } from '@angular/core';
+	import { AppUser } from '../models/appuser';
+	import { Observable, of } from 'rxjs';
+	import { AngularFireAuth } from '@angular/fire/auth';
+	import { ActivatedRoute, Router } from '@angular/router';
+	import { AngularFirestore } from '@angular/fire/firestore';
+	import { switchMap } from 'rxjs/operators';
+	import * as firebase from 'firebase/app';
+
+Declare a observable of type `AppUser` as shown below.
+
+    appUser$:  Observable<AppUser>;
+
+Inject the services in the constructor as shown below.
+
+      constructor(
+	    public afAuth: AngularFireAuth,
+	    private route: ActivatedRoute,
+	    private router: Router,
+	    private db: AngularFirestore
+	 )
+
+The Observable `appUser$` will get the auth state of the user. If the user is logged in, it will fetch the user details from the firestore database, else it will return null. Put the following code in the constructor as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L24-L34](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L24-L34)  
+
+    this.appUser$ = this.afAuth.authState.pipe(
+	  switchMap(user => {
+		if (user) {
+		  return this.db.doc<AppUser>(`appusers/${user.uid}`).valueChanges();
+		} else {
+		  return of(null);
+		}
+	  })
+	);
+
+Add the method definition for `login` and `logout` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L37-L51](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L37-L51)
+
+    async login() {
+	    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || this.router.url;
+	    localStorage.setItem('returnUrl', returnUrl);
+
+	    const credential = await this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+	    return this.updateUserData(credential.user);
+	  }
+
+	async logout() {
+	    await this.afAuth.auth.signOut().then(() => {
+	      this.router.navigate(['/']);
+	    });
+	  }
+
+We will also add a method `updateUserData` to save the user data into our database upon login. We will store the name, email address and photoURL of the photo in Google account for each user in our database. ou can get the method definition from [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L54-L62](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L54-L62)
+
+    private updateUserData(user) {
+	    const userRef = this.db.doc(`appusers/${user.uid}`);
+	    const data = {
+	      name: user.displayName,
+	      email: user.email,
+	      photoURL: user.photoURL
+	    };
+	    return userRef.set(data, { merge: true });
+	}
+
+### Update AppComponent
+
+Open [`src/app/app.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.component.ts) and add the following import definitions at the top.
+
+	import { AuthService } from './services/auth.service';
+	import { Router } from '@angular/router';
+
+Inject the services in the constructor as shown below.
+
+    constructor(
+		private authService: AuthService,
+		private router: Router) { }
+
+We will subscribe to the Observable `appUser$` in the constructor as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.component.ts#L16-L31](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.component.ts#L16-L31)
+
+    this.authService.appUser$.subscribe(user => {
+	  if (!user) {
+		return;
+	  } else {
+		const returnUrl = localStorage.getItem('returnUrl');
+		if (!returnUrl) {
+		  return;
+		}
+		localStorage.removeItem('returnUrl');
+		this.router.navigateByUrl(returnUrl);
+	  }
+	});
+
+### Add Login button in Navigation bar
+
+Open [`src/app/components/nav-bar/nav-bar.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.ts) and add the following import definitions at the top.
+
+    import { AuthService } from 'src/app/services/auth.service';
+	import { AppUser } from 'src/app/models/appuser';
+
+We will declare a property to hold the user data. We will also Inject the `AuthService` in the constructor. Refer to the code snippet shown below.
+
+	appUser:  AppUser;
+	constructor(private  authService:  AuthService) {}
+
+We will also add the method to handle login and logout from our application. Add the method definitions as shown below.
+
+    login() {
+	  this.authService.login();
+	}
+
+	logout() {
+	  this.authService.logout();
+	}
+
+We will update the template for navigation bar. Open `src/app/components/nav-bar/nav-bar.component.ts` and replace the content with the code shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.html)
+
+At last add the following style definition in  [`src/app/components/nav-bar/nav-bar.component.scss`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.scss#L14-L19)
+
+    .user-avatar {
+		height: 40px;
+		width: 40px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+### 
+
+Open  [`src/app/components/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L5-L6) and add the following two import definitions at the top.
+
+    import { AppUser } from 'src/app/models/appuser';
+	import { AuthService } from 'src/app/services/auth.service';
+
+Similar to Nav-bar component, we will declare a property and Inject the `AuthService` in the constructor. Refer to the code snippet shown below.
+
+	appUser:  AppUser;
+	constructor(private  authService:  AuthService) {}
+
+We will subscribe to the observable `appUser$` from `AuthService` and set the app user data. Add the following line of code in the constructor.
+
+	this.authService.appUser$.subscribe(appUser  =>  this.appUser  =  appUser);
+
+Open  [`src/app/components/blog-card.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L19) and add a `ngIf` directive to restrict the Edit and Delete functionality for logged in users only.
+
+	<ng-container  *ngIf="appUser">
+
+### Secure your routes
+
+We will add an auth guard to our application to restrict unauthorized access to certain routes. To create a new guard, run the command as shown below.
+
+    ng g g guards/auth
+Open the [`src/app/guards/auth.guard.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/guards/auth.guard.ts#L3-L5) file and add the following import definitions.
+
+    import { Observable } from 'rxjs';
+	import { AuthService } from '../services/auth.service';
+	import { map } from 'rxjs/operators';
+
+Inject `Router` and `AuthService` in the constructor as shown below.
+
+    constructor(
+	private router: Router,
+	private authService: AuthService) { }
+
+Update the `canActivate` method as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/guards/auth.guard.ts#L19-L25](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/guards/auth.guard.ts#L19-L25)
+
+    return this.authService.appUser$.pipe(map(user => {
+	  if (user) {
+		return true;
+	  }
+	  this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
+	  return false;
+	}));
+
+### Update App module
+
+Import the `AngularFireAuthModule` into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L5) file as shown below.
+
+	import {AngularFireAuthModule} from '@angular/platform-browser/animations';
+
+	@NgModule({
+	  ...
+	  imports: [
+	    ...
+	    AngularFireAuthModule,
+	  ],
+	})
+
+To activate route guard for a particular route, we need to add `canActivate` property for them. Update the routes for Adding a new post and editing an existing post by adding `canActivate` property. The code is shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L50-L51](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L50-L51)
+
+    { path: 'addpost', component: BlogEditorComponent, canActivate: [AuthGuard] },
+	{ path: 'editpost/:id', component: BlogEditorComponent, canActivate: [AuthGuard] },
+
+Thus we have successfully configured Google authentication for our application.
+
+
 # Next Steps
 
 We can extend this application by adding new features. Some of them are mentioned below.
 
-- Google Authentication with the help of firebase
-- Pagination on the home page
 - Post comment on each blog
 - Option to share the blog on social media
 - Author profile on home page
+- Snackbar to show user friendly message
 
 An advanced version of this app with all the new features is available at [https://github.com/AnkitSharma-007/blogging-app-with-Angular-CloudFirestore](https://github.com/AnkitSharma-007/blogging-app-with-Angular-CloudFirestore)
 
 ### Personal blog
 You can read articles on Angular on my personal blog at [https://ankitsharmablogs.com/](https://ankitsharmablogs.com/)
 
+### Social Media
+
+You can connect with me via social channels
+- [LinkedIn](https://www.linkedin.com/in/ankitsharma-007/)
+- [Twitter](https://twitter.com/ankitsharma_007)
+
 ### Explore Angular in depth
 
 If you want to explore Angular in depth then refer to  [https://angular.io/start](https://angular.io/start)
+
