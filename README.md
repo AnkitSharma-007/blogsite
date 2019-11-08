@@ -29,6 +29,7 @@
 - [Deploy the app on Firebase Hosting](https://github.com/AnkitSharma-007/blogsite#deploy-the-app-on-firebase-hosting)
 - [Edit an existing blog post](https://github.com/AnkitSharma-007/blogsite#edit-an-existing-blog-post)
 - [Pagination on the home page](https://github.com/AnkitSharma-007/blogsite#pagination-on-the-home-page)
+- [Add Google authentication](https://github.com/AnkitSharma-007/blogsite#add-google-authentication)
 - [Next Steps](https://github.com/AnkitSharma-007/blogsite#next-steps)
 
 
@@ -73,7 +74,7 @@ To create a new project on firebase follow the steps mentioned below.
  - Copy the `firebaseConfig` object from the `<script>` tag.
  - Paste the copied code into [`src/environments/environment.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/environments/environment.ts).
  - Similarly, paste the code into [`src/environments/environment.prod.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/environments/environment.prod.ts).
- - Import the `environment` constant after the `AppComponent` import, into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L12).
+ - Import the `environment` constant after the `AppComponent` import, into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L14).
  - Click "Continue to the console" on the Firebase web page.
 
 ### Create "Cloud Firestore" database
@@ -110,7 +111,7 @@ Execute the following command in the console.
 
     npm install --save @angular/material @angular/cdk @angular/animations
 
-After installation import it into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L5) file as shown below.
+After installation import it into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L6) file as shown below.
 
     import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     
@@ -144,7 +145,7 @@ We will create a new module to include all the material related components. Run 
 
 Open `src/app/ng-material/ng-material.module.ts` and replace what is there with the code in [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/ng-material/ng-material.module.ts](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/ng-material/ng-material.module.ts)
 
-Import this new `NgMaterialModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L6) file as shown below.
+Import this new `NgMaterialModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L7) file as shown below.
 
     import { NgMaterialModule } from  './ng-material/ng-material.module';
     
@@ -184,7 +185,7 @@ Open `src/app/components/nav-bar/nav-bar.component.html` and replace what is the
 
     <mat-toolbar class="nav-bar mat-elevation-z2"></mat-toolbar>
 
-We will add the styling for nav bar in [`src/app/components/nav-bar/nav-bar.component.scss`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.scss) as shown below
+We will add the styling for nav bar in [`src/app/components/nav-bar/nav-bar.component.scss`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.scss#L1-L12) as shown below
 
      .nav-bar {
         background-color: #1565C0;
@@ -205,11 +206,11 @@ Run the following command to create the HomeComponent
 
     ng g c components/home
 
-At this point in time we will not add any code to `HomeComponent`. We will revisit in a later part of this workshop.
+At this point in time we will not add any code to `HomeComponent`. We will revisit it in a later part of this workshop.
 
 
 # Add Router module
-We will add the `RouterModule` into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L7) as shown below.
+We will add the `RouterModule` into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L8) as shown below.
 
     import { RouterModule } from '@angular/router';
     
@@ -245,7 +246,7 @@ Add the following styles to [`src/styles.scss`](https://github.com/AnkitSharma-0
 
 
 # Add Forms module
-We will add the `FormsModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L8) as shown below.
+We will add the `FormsModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L9) as shown below.
 
     import { FormsModule } from  '@angular/forms';
     
@@ -308,7 +309,7 @@ Run the command shown below to install one of the official editor builds which i
 
     npm install --save @ckeditor/ckeditor5-build-classic
 
-Imports the `CKEditorModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L9) as shown below.
+Imports the `CKEditorModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L10) as shown below.
 
     import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
@@ -328,7 +329,7 @@ We will create a new component for adding and editing the blog. Run the command 
 
 
 ### Add a route to the addpost page
-Add the route for this component in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L42](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L42)
+Add the route for this component in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L50](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L50)
 
     RouterModule.forRoot([
       ...
@@ -436,16 +437,17 @@ This method will be invoked on click of Save button. We will add the following c
 
 
 # Add buttons in Nav bar
-We will add the navigation button to blog editor and home page in the nav bar. Add the following code to the `<mat-toolbar>` element in [`src/app/components/nav-bar/nav-bar.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.html#L2-L5).
+We will add the navigation button to blog editor and home page in the nav bar. Add the following code to the `<mat-toolbar>` element in [`src/app/components/nav-bar/nav-bar.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.html#L2-L8).
 
     <button mat-button [routerLink]='[""]'> My blog </button>
     <button mat-button [routerLinkActive]='["link-active"]' [routerLink]='["/addpost"]'>
         Add Post
     </button>
+    <span  class="spacer"></span>
 
 
 ### Add BlogEditorComponent styles 
-We will add styling for blog editor in `styles.scss` file as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L43](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L43)
+We will add styling for blog editor in `styles.scss` file as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L47](https://github.com/AnkitSharma-007/blogsite/blob/master/src/styles.scss#L14-L47)
 
     .ck-editor__editable {
       max-height: 350px;
@@ -477,6 +479,10 @@ We will add styling for blog editor in `styles.scss` file as shown at [https://g
     img{
       max-width: 100%;
     }
+    
+	.spacer {
+	  flex: 1 1 auto;
+	}
 
 ### Test it out
 Open the browser and click on “AddPost” button on the nav-bar. You will be navigated to the blog editor page. Add a new blog and click on save button to save the blog in the database. Open the firebase console, navigate to your project overview page and click on “Database” link in the menu on the left. Here you can see the record for your newly added blog.
@@ -492,7 +498,7 @@ Run the following command to generate the excerpt pipe.
 
     ng g p custompipes/excerpt
 
-Replace the `transform` method with the following, as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts#L5-L12](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts#L5-L12)
+Replace the `transform` method with the following code, as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts#L5-L12](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/custompipes/excerpt.pipe.ts#L5-L12)
 
     transform(content: string) {
       const postSummary = content.replace(/(<([^>]+)>)/ig, '');
@@ -549,7 +555,7 @@ Add a property to hold the current blog post.
 
     blogPost: Post[] = [];
 
-Now we will create a method to get the blog post and invoke it inside `ngOnInit` in [`src/app/components/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L16-L24) file.
+Now we will create a method to get the blog post and invoke it inside `ngOnInit` in [`src/app/components/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L44-L48) file.
 
     ngOnInit() {
       this.getBlogPosts();
@@ -561,14 +567,14 @@ Now we will create a method to get the blog post and invoke it inside `ngOnInit`
       });
     }
 
-Open `src/app/components/blog-card.component.html` and replace what is there with the HTML shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html)
+Open `src/app/components/blog-card.component.html` and replace what is there with the HTML shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L1-L29](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L1-L29)
 
 Open `src/app/components/blog-card/blog-card.component.scss` and replace what is there with the style definitions shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.scss](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.scss)
 
 
 # Add the BlogCardComponent to the home page
 
-We will display the blog card on home page. Open [`src/app/components/home.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/home/home.component.html#L1-L5) and replace what is there with the following HTML.
+We will display the blog card on home page. Open [`src/app/components/home.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/home/home.component.html) and replace what is there with the following HTML.
 
     <div class="row left-panel">
         <div class="col-md-9">
@@ -576,11 +582,20 @@ We will display the blog card on home page. Open [`src/app/components/home.compo
         </div>
     </div>
 
-Open [`src/app/components/home/home.component.scss`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/home/home.component.scss#L1-L3) and add the following style definition inside it.
+Open [`src/app/components/home/home.component.scss`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/home/home.component.scss) and add the following style definition inside it.
 
     .left-panel {
     	margin-top: 15px;
     }
+
+
+# Add Font Awesome library
+
+We will add [Font Awesome](https://fontawesome.com/) and `Material Icons` libraries in our application. We will use icon sets provided by these library for styling our app. Add the following lines in [index.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/index.html#L10-L12) file.
+
+	 <link  href="https://fonts.googleapis.com/icon?family=Material+Icons"  rel="stylesheet">
+	 <link rel="stylesheet" type="text/css"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 
 # Read a blog post
@@ -589,11 +604,11 @@ We will add the feature of reading a blog. Run the following command to create t
 
     ng g c components/blog
 
-Add the router link for this component in [`app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L43) as shown below
+Add the router link for this component in [`app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L52) as shown below
 
     { path: 'blog/:id/:slug', component: BlogComponent },
 	
-Add the following method definition in [`blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L31) file.
+Add the following method definition in [`blog.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/blog.service.ts#L31-L34) file.
 
     getPostbyId(postId: string) {
     	const  userDetails = this.db.doc('blogs/' + postId).valueChanges();
@@ -612,16 +627,16 @@ Now put the code inside `BlogComponent` class as shown at [https://github.com/An
 Open [`src/app/components/blog/blog.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.html) and replace what is there with the code shown below.
 
     <div class="docs-example-viewer-wrapper">
-        <h1 class="entry-title">{{postData.title}}</h1>
-        <mat-card-subtitle class="blog-info">
-            {{postData.createdDate | date:'longDate'}}
-        </mat-card-subtitle>
-        <mat-divider></mat-divider>
-        <div class="docs-example-viewer-body">
-            <div [innerHTML]="postData.content">
-            </div>
-        </div>
-    </div>
+	    <h1 class="entry-title">{{postData.title}}</h1>
+	    <mat-card-subtitle class="blog-info">
+	        <i class="fa fa-calendar" aria-hidden="true"></i> {{postData.createdDate | date:'longDate'}}
+	    </mat-card-subtitle>
+	    <mat-divider></mat-divider>
+	    <div class="docs-example-viewer-body">
+	        <div [innerHTML]="postData.content">
+	        </div>
+	    </div>
+	</div>
 
 Finally we will add styling for `BlogComponent`. Open `src/app/components/blog/blog.component.scss` and replace what is there with the style definitions shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.scss](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog/blog.component.scss)
 
@@ -634,7 +649,7 @@ We will add the feature of deleting a blog. Add the following code in the [`src/
     	return  this.db.doc('blogs/' + blogID).delete();
     }
 
-Open [`src/app/components/blog-card/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts) and add the delete method definition as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L26-L34](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L26-L34)
+Open [`src/app/components/blog-card/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts) and add the delete method definition as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L50-L58](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L50-L58)
 
     delete(postId) {
     if (confirm('Are you sure')) {
@@ -697,7 +712,7 @@ We will now implement the functionality to edit an existing blog. Add the follow
     	return  this.db.doc('blogs/' + postId).update(putData);
     }
 
-Add the routing for edit functionality in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L44](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L44)
+Add the routing for edit functionality in `app.module.ts` as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L51](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L51)
 
     RouterModule.forRoot([
       ...
@@ -753,13 +768,12 @@ Upon clicking on Save we need to handle to case of both adding a new blog as wel
      }
     }
 
-This completes our application. We learned how to create a simple blogging application using Angular on frontend and cloud firestore as database.
 
 # Pagination on the home page
 
 We will add the feature of pagination on the home page. We will use [ngx-pagination](https://www.npmjs.com/package/ngx-pagination) for this purpose.
 
-Execute the command shown below to install the ngx-pagination component for Angular.
+Execute the command shown below to install the `ngx-pagination` component for Angular.
 
     npm i ngx-pagination
 
@@ -793,17 +807,17 @@ We will add two `Input` property for this component as shown below.
 	@Input()
 	config: any;
 
-Also add the following service definitions in the constructor.
+Inject the `Router` class in the constructor as shown below.
 
     constructor(private  router:  Router) { }
 
-We will add the method to handle the `pageChange` event for our paginator. The definition for this method is shown below.
+We will add the method to handle the `pageChange` event for our paginator. The definition for this method can be found at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/paginator/paginator.component.ts#L19-L21](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/paginator/paginator.component.ts#L19-L21)
 
     pageChange(newPage: number) {
 	  this.router.navigate(['/page/', newPage]);
 	}
 
-We will add another method to setup dynamic page size for our application. The method definition is shown below.
+We will add another method to setup dynamic page size for the paginator. This method will set the number of items to show on each page based on selection from a drop down list. The method definition can be found at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/paginator/paginator.component.ts#L23-L26](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/paginator/paginator.component.ts#L23-L26)
 
     changePageItemCount(selectedItem) {
 	  localStorage.setItem('pageSize', selectedItem.value);
@@ -851,7 +865,7 @@ Now we will add a new router link in [`app.module.ts`](https://github.com/AnkitS
 
 ### Add the PaginatorComponent to the BlogCard
 
-To enable pagination, we need to add the `PaginatorComponent` component to the `BlogCardComponent`. Open `src/app/components/blog-card.component.ts` and declare two properties as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L15-L16](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L15-L16) 
+To enable pagination, we need to add the `PaginatorComponent` to the `BlogCardComponent`. Open `src/app/components/blog-card.component.ts` and declare two properties as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L15-L16](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L15-L16) 
 
     config: any;
     pageSizeOptions = [];
@@ -886,9 +900,9 @@ Now update the `ngOnInit` method as shown below.
 
 ### Update the BlogCardComponent template
 
-Open [`src/app/components/blog-card.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L30) and add the paginator component as shown below.
+Open [`src/app/components/blog-card.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L29-L30) and add the paginator component as shown below.
 
-    <app-paginator  [pageSizeOptions]="pageSizeOptions"  [config]="config"></app-paginator>
+    <app-paginator [pageSizeOptions]="pageSizeOptions" [config]="config"></app-paginator>
 
 We will also add a `paginate` pipe in our `ngFor` directive while iterating through the list of blog posts as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L7](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L7)
 
@@ -896,7 +910,7 @@ We will also add a `paginate` pipe in our `ngFor` directive while iterating thro
 
 ### Test the pagination feature
 
-Open the browser and you can see a paginator on the home page. You can jump through the pages and the URL will change with the updated page number. You can also see a drop down besides the paginator which will allow you to select the number of items to show on each page.
+Open the browser and you can see a paginator on the home page. You can jump through the pages and the URL will change with the updated page number. You can also see a drop down list besides the paginator which will allow you to select the number of items to show on each page.
 
 
 # Add Google authentication
@@ -924,9 +938,8 @@ We will create a service to handle the authentication. Create a new service usin
 
     ng g s services/auth
 
-Open the [`src/app/services/auth.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L1-L8) file and add the following import definitions.
+Open the [`src/app/services/auth.service.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L2-L8) file and add the following import definitions.
 
-    import { Injectable } from '@angular/core';
 	import { AppUser } from '../models/appuser';
 	import { Observable, of } from 'rxjs';
 	import { AngularFireAuth } from '@angular/fire/auth';
@@ -935,7 +948,7 @@ Open the [`src/app/services/auth.service.ts`](https://github.com/AnkitSharma-007
 	import { switchMap } from 'rxjs/operators';
 	import * as firebase from 'firebase/app';
 
-Declare a observable of type `AppUser` as shown below.
+Declare an observable of type `AppUser`  in the `AuthService` class as shown below.
 
     appUser$:  Observable<AppUser>;
 
@@ -948,7 +961,7 @@ Inject the services in the constructor as shown below.
 	    private db: AngularFirestore
 	 )
 
-The Observable `appUser$` will get the auth state of the user. If the user is logged in, it will fetch the user details from the firestore database, else it will return null. Put the following code in the constructor as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L24-L34](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L24-L34)  
+The observable `appUser$` will get the auth state of the user. If the user is logged in, it will fetch the user details from the firestore database, else it will return null. Put the following code in the constructor as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L24-L34](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L24-L34)  
 
     this.appUser$ = this.afAuth.authState.pipe(
 	  switchMap(user => {
@@ -976,7 +989,7 @@ Add the method definition for `login` and `logout` as shown at [https://github.c
 	    });
 	  }
 
-We will also add a method `updateUserData` to save the user data into our database upon login. We will store the name, email address and photoURL of the photo in Google account for each user in our database. ou can get the method definition from [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L54-L62](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L54-L62)
+We will also add a method `updateUserData` to save the user data into our database upon successful login. We will store the name, email address and photoURL of the photo in Google account for each user in our database. You can get the method definition from [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L54-L62](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/services/auth.service.ts#L54-L62)
 
     private updateUserData(user) {
 	    const userRef = this.db.doc(`appusers/${user.uid}`);
@@ -999,9 +1012,10 @@ Inject the services in the constructor as shown below.
 
     constructor(
 		private authService: AuthService,
-		private router: Router) { }
+		private router: Router
+	) { }
 
-We will subscribe to the Observable `appUser$` in the constructor as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.component.ts#L16-L31](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.component.ts#L16-L31)
+We will subscribe to the observable `appUser$` in the constructor as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.component.ts#L16-L31](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.component.ts#L16-L31)
 
     this.authService.appUser$.subscribe(user => {
 	  if (!user) {
@@ -1028,7 +1042,11 @@ We will declare a property to hold the user data. We will also Inject the `AuthS
 	appUser:  AppUser;
 	constructor(private  authService:  AuthService) {}
 
-We will also add the method to handle login and logout from our application. Add the method definitions as shown below.
+We will subscribe to the observable `appUser$` from `AuthService` and set the `appUser` property. Add the following line of code in the constructor.
+
+    authService.appUser$.subscribe(appUser  =>  this.appUser  =  appUser);
+
+We will also add the method to handle login and logout from our application as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.ts#L18-L24](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.ts#L18-L24)
 
     login() {
 	  this.authService.login();
@@ -1038,9 +1056,9 @@ We will also add the method to handle login and logout from our application. Add
 	  this.authService.logout();
 	}
 
-We will update the template for navigation bar. Open `src/app/components/nav-bar/nav-bar.component.ts` and replace the content with the code shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.html)
+We will update the template for navigation bar. Open `src/app/components/nav-bar/nav-bar.component.html` and replace the content with the code shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.html](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.html)
 
-At last add the following style definition in  [`src/app/components/nav-bar/nav-bar.component.scss`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.scss#L14-L19)
+We will add the following style definition in  [`src/app/components/nav-bar/nav-bar.component.scss`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/nav-bar/nav-bar.component.scss#L14-L19)
 
     .user-avatar {
 		height: 40px;
@@ -1049,58 +1067,11 @@ At last add the following style definition in  [`src/app/components/nav-bar/nav-
 		flex-shrink: 0;
 	}
 
-### 
-
-Open  [`src/app/components/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L5-L6) and add the following two import definitions at the top.
-
-    import { AppUser } from 'src/app/models/appuser';
-	import { AuthService } from 'src/app/services/auth.service';
-
-Similar to Nav-bar component, we will declare a property and Inject the `AuthService` in the constructor. Refer to the code snippet shown below.
-
-	appUser:  AppUser;
-	constructor(private  authService:  AuthService) {}
-
-We will subscribe to the observable `appUser$` from `AuthService` and set the app user data. Add the following line of code in the constructor.
-
-	this.authService.appUser$.subscribe(appUser  =>  this.appUser  =  appUser);
-
-Open  [`src/app/components/blog-card.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L19) and add a `ngIf` directive to restrict the Edit and Delete functionality for logged in users only.
-
-	<ng-container  *ngIf="appUser">
-
-### Secure your routes
-
-We will add an auth guard to our application to restrict unauthorized access to certain routes. To create a new guard, run the command as shown below.
-
-    ng g g guards/auth
-Open the [`src/app/guards/auth.guard.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/guards/auth.guard.ts#L3-L5) file and add the following import definitions.
-
-    import { Observable } from 'rxjs';
-	import { AuthService } from '../services/auth.service';
-	import { map } from 'rxjs/operators';
-
-Inject `Router` and `AuthService` in the constructor as shown below.
-
-    constructor(
-	private router: Router,
-	private authService: AuthService) { }
-
-Update the `canActivate` method as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/guards/auth.guard.ts#L19-L25](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/guards/auth.guard.ts#L19-L25)
-
-    return this.authService.appUser$.pipe(map(user => {
-	  if (user) {
-		return true;
-	  }
-	  this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
-	  return false;
-	}));
-
 ### Update App module
 
 Import the `AngularFireAuthModule` into [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L5) file as shown below.
 
-	import {AngularFireAuthModule} from '@angular/platform-browser/animations';
+	import { AngularFireAuthModule } from  '@angular/fire/auth';
 
 	@NgModule({
 	  ...
@@ -1110,12 +1081,65 @@ Import the `AngularFireAuthModule` into [`src/app/app.module.ts`](https://github
 	  ],
 	})
 
-To activate route guard for a particular route, we need to add `canActivate` property for them. Update the routes for Adding a new post and editing an existing post by adding `canActivate` property. The code is shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L50-L51](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L50-L51)
+
+### Authenticated access for Edit and Delete
+
+Open  [`src/app/components/blog-card.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L5-L6) and add the following two import definitions at the top.
+
+    import { AppUser } from 'src/app/models/appuser';
+	import { AuthService } from 'src/app/services/auth.service';
+
+Similar to Nav-bar component, we will declare a property in `BlogCardComponent` and Inject the `AuthService` in the constructor. Refer to the code snippet shown below.
+
+	appUser: AppUser;
+	constructor(private authService: AuthService) {}
+
+We will subscribe to the observable `appUser$` from `AuthService` and set the `appUser` property. Add the following line of code in the constructor.
+
+	this.authService.appUser$.subscribe(appUser  =>  this.appUser  =  appUser);
+
+Open  [`src/app/components/blog-card.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L19) and add a `ngIf` directive to restrict the Edit and Delete functionality for logged in users only.
+
+	<ng-container *ngIf="appUser">
+
+### Secure your routes
+
+We will add an auth guard to our application to restrict unauthorized access to certain routes. To create a new guard, run the command as shown below.
+
+    ng g g guards/auth
+
+Open the [`src/app/guards/auth.guard.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/guards/auth.guard.ts#L4-L5) file and add the following import definitions.
+
+	import { AuthService } from '../services/auth.service';
+	import { map } from 'rxjs/operators';
+
+Add a constructor and inject `Router` and `AuthService` in it as shown below.
+
+    constructor(
+		private router: Router,
+		private authService: AuthService
+	) { }
+
+We will update the `canActivate` method to handle unauthenticated access as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/guards/auth.guard.ts#L19-L25](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/guards/auth.guard.ts#L19-L25)
+
+    return this.authService.appUser$.pipe(map(user => {
+	  if (user) {
+		return true;
+	  }
+	  this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
+	  return false;
+	}));
+
+### Add route guards in App module
+
+To activate route guard for a particular route, we need to add `canActivate` property for them in `app.module.ts`. We will secure the routes for Adding a new post and editing an existing post by adding `canActivate` property. The code is shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L50-L51](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L50-L51)
 
     { path: 'addpost', component: BlogEditorComponent, canActivate: [AuthGuard] },
 	{ path: 'editpost/:id', component: BlogEditorComponent, canActivate: [AuthGuard] },
 
 Thus we have successfully configured Google authentication for our application.
+
+This completes our application. We learned how to create a simple blogging application using Angular on frontend and cloud firestore as database.
 
 
 # Next Steps
