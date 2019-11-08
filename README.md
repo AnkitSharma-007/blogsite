@@ -28,6 +28,7 @@
 - [Delete a blog post](https://github.com/AnkitSharma-007/blogsite#delete-a-blog-post)
 - [Deploy the app on Firebase Hosting](https://github.com/AnkitSharma-007/blogsite#deploy-the-app-on-firebase-hosting)
 - [Edit an existing blog post](https://github.com/AnkitSharma-007/blogsite#edit-an-existing-blog-post)
+- [Pagination on the home page](https://github.com/AnkitSharma-007/blogsite#pagination-on-the-home-page)
 - [Next Steps](https://github.com/AnkitSharma-007/blogsite#next-steps)
 
 
@@ -478,7 +479,7 @@ We will add styling for blog editor in `styles.scss` file as shown at [https://g
     }
 
 ### Test it out
-Open the browser and click on “AddPost” button on the nav-bar. You will be navigated to the blog editor page. Add a new blog and click on save button to save the blog in thee database. Open the firebase console, navigate to your project overview page and click on “Database” link in the menu on the left. Here you can see the record for your newly added blog.
+Open the browser and click on “AddPost” button on the nav-bar. You will be navigated to the blog editor page. Add a new blog and click on save button to save the blog in the database. Open the firebase console, navigate to your project overview page and click on “Database” link in the menu on the left. Here you can see the record for your newly added blog.
 
 
 # Create custom pipes
@@ -754,6 +755,149 @@ Upon clicking on Save we need to handle to case of both adding a new blog as wel
 
 This completes our application. We learned how to create a simple blogging application using Angular on frontend and cloud firestore as database.
 
+# Pagination on the home page
+
+We will add the feature of pagination on the home page. We will use [ngx-pagination](https://www.npmjs.com/package/ngx-pagination) for this purpose.
+
+Execute the command shown below to install the ngx-pagination component for Angular.
+
+    npm i ngx-pagination
+
+Imports the `NgxPaginationModule` in [`src/app/app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L11) as shown below.
+
+    import { NgxPaginationModule } from  'ngx-pagination';
+
+    @NgModule( {
+      imports: [
+        ...
+        NgxPaginationModule,
+      ],
+    })
+ 
+
+### Create the `PaginatorComponent`
+Run the following command, in the original terminal, to generate a Paginator component.
+
+    ng g c components/paginator
+
+Open [`src/app/components/paginator/paginator.component.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/paginator/paginator.component.ts) and add import definitions as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/paginator/paginator.component.ts#L1-L2](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/paginator/paginator.component.ts#L1-L2)
+
+    import { Component, Input } from '@angular/core';
+	import { Router } from '@angular/router';
+
+We will add two `Input` property for this component as shown below.
+
+    @Input()
+	pageSizeOptions: [];
+
+	@Input()
+	config: any;
+
+Also add the following service definitions in the constructor.
+
+    constructor(private  router:  Router) { }
+
+We will add the method to handle the `pageChange` event for our paginator. The definition for this method is shown below.
+
+    pageChange(newPage: number) {
+	  this.router.navigate(['/page/', newPage]);
+	}
+
+We will add another method to setup dynamic page size for our application. The method definition is shown below.
+
+    changePageItemCount(selectedItem) {
+	  localStorage.setItem('pageSize', selectedItem.value);
+	  this.config.itemsPerPage = selectedItem.value;
+	}
+
+Open [`src/app/components/paginator/paginator.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/paginator/paginator.component.html) and replace what is there with the code shown below.
+
+    <div class="paginator-controls">
+    <div>
+        <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Items per page: </mat-label>
+            <mat-select [(ngModel)]="config.itemsPerPage" (selectionChange)="changePageItemCount($event)">
+                <mat-option *ngFor="let page of pageSizeOptions" [value]="page">
+                    {{ page }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+
+Finally we will add styling for `PaginatorComponent`. Open [`src/app/components/paginator/paginator.component.scss`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/paginator/paginator.component.scss) and replace what is there with the style definitions shown below.
+
+    .my-pagination ::ng-deep .ngx-pagination {
+	    margin: 10px 0px 10px 0px;
+	    padding-inline-start: 0px;
+	 }
+	 .paginator-controls {
+	    display: flex;
+	    justify-content: space-between;
+	    padding-top: 10px;
+	 }
+	 @media screen and (min-width: 320px) and  (max-width: 420px) {
+	    .paginator-controls {
+	      flex-direction: column-reverse;
+	 }
+	}
+
+Now we will add a new router link in [`app.module.ts`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/app.module.ts#L49)  to support the pagination as shown below.
+
+    { path: 'page/:pagenum', component: HomeComponent },
+
+### Add the PaginatorComponent to the BlogCard
+
+To enable pagination, we need to add the `PaginatorComponent` component to the `BlogCardComponent`. Open `src/app/components/blog-card.component.ts` and declare two properties as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L15-L16](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L15-L16) 
+
+    config: any;
+    pageSizeOptions = [];
+
+Add the import for `ActivatedRoute` in the component as shown below.
+
+    import { ActivatedRoute } from  '@angular/router';
+
+Inject the `ActivatedRoute` class in the constructor as shown below
+
+    private  route:  ActivatedRoute,
+
+We will initialize the newly declared properties inside the constructor as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L27-L32](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.ts#L27-L32)
+
+    this.pageSizeOptions = [2, 4, 6];
+	const pageSize = localStorage.getItem('pageSize');
+	this.config = {
+	  currentPage: 1,
+	  itemsPerPage: pageSize ? +pageSize : this.pageSizeOptions[0]
+	};
+
+Now update the `ngOnInit` method as shown below.
+
+     ngOnInit() {
+	 this.route.params.subscribe(
+      params => {
+        this.config.currentPage = +params['pagenum'];
+        this.getBlogPosts();
+      }
+     );
+    }
+
+### Update the BlogCardComponent template
+
+Open [`src/app/components/blog-card.component.html`](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L30) and add the paginator component as shown below.
+
+    <app-paginator  [pageSizeOptions]="pageSizeOptions"  [config]="config"></app-paginator>
+
+We will also add a `paginate` pipe in our `ngFor` directive while iterating through the list of blog posts as shown at [https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L7](https://github.com/AnkitSharma-007/blogsite/blob/master/src/app/components/blog-card/blog-card.component.html#L7)
+
+    <div  *ngFor="let post of blogPost | paginate: config">
+
+### Test the pagination feature
+
+Open the browser and you can see a paginator on the home page. You can jump through the pages and the URL will change with the updated page number. You can also see a drop down besides the paginator which will allow you to select the number of items to show on each page.
+
 
 # Next Steps
 
@@ -773,4 +917,3 @@ You can read articles on Angular on my personal blog at [https://ankitsharmablog
 ### Explore Angular in depth
 
 If you want to explore Angular in depth then refer to  [https://angular.io/start](https://angular.io/start)
-
